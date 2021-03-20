@@ -1,14 +1,11 @@
 const express = require('express')
 const server = express()
-const db = require('../data/db-config')
+const Recipe = require('./model')
 server.use(express.json())
 
-const getRecipeById = (recipe_id) => {
-return db('recipes').where('recipe_id', recipe_id)
-}
 
 server.get('/:id', (req,res) => {
-    getRecipeById(req.params.id)
+    Recipe.getRecipeById(req.params.id)
     .then((recipe) => {
         res.json(recipe)
     })

@@ -19,10 +19,27 @@ exports.up = function(knex) {
   })
   .createTable('Ingredients', (tbl) => {
     tbl.increments('ingredient_id')
-    tbl.float('quantity')
+    tbl.string('ingredient_name', 120).unique()
+   
   })
   .createTable('Step_Ingredients', (tbl) => {
     tbl.increments('step_ingredient_id')
+    tbl.integer('step_id')
+    .unsigned()
+    .notNullable()
+    .references('step_id')
+    .inTable('Steps')
+    .onDelete('RESTRICT')
+    .onUpdate('RESTRICT')
+    tbl.integer('ingredient_id')
+    .unsigned()
+    .notNullable()
+    .references('ingredient_id')
+    .inTable('Ingredients')
+    .onDelete('RESTRICT')
+    .onUpdate('RESTRICT')
+    tbl.float('quantity')
+
   })
 };
 
